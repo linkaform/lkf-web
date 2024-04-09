@@ -1,0 +1,36 @@
+version: '3.5'
+
+services:
+  lkfx:
+    restart: always
+    container_name: lkfx
+    image: linkaform/lkf-lkfx:develop
+    build:    
+      context: ./
+      dockerfile: ./Dockerfile
+      target: develop
+    networks:
+      linkaform:
+    # extra_hosts:
+    #   - "nginx:172.18.0.4"
+    #   - "redis:172.18.0.11"
+    #   - "backend:172.18.0.20"
+    #   - "bpmn:172.18.0.30"
+    #   - "supervisor:172.18.0.21"
+    #   - "stunnel:172.18.0.10"
+    #   #- "reactapp:172.18.0.42"
+    ports:
+       - "3000:3000"
+    working_dir: /srv/lkfx
+    volumes:
+      - ./src:/srv/lkfx/src
+      - ./public:/srv/lkfx/public
+    command: npm start
+    stdin_open: true
+    tty: true
+
+
+networks:
+  linkaform:
+    external:
+      name: linkaform
